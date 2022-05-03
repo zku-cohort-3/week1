@@ -9,9 +9,11 @@ template Multiplier3 () {
    signal input b;
    signal input c;
    signal output d;  
+   signal output e;
 
    // Constraints.  
-   d <== a * b * c;  
+   d <== a * b;
+   e <== c * d;
 }
 
 component main = Multiplier3();
