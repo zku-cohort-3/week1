@@ -17,7 +17,6 @@ fi
 echo "Compiling ${NAME}.circom..."
 
 # compile circuit
-
 circom ${NAME}.circom --r1cs --wasm --sym -o ${NAME}
 snarkjs r1cs info ${NAME}/${NAME}.r1cs
 

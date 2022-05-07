@@ -19,7 +19,7 @@ snarkjs powersoftau beacon pot12_0001.ptau pot12_beacon.ptau 0102030405060708090
 snarkjs powersoftau prepare phase2 pot12_beacon.ptau pot12_final.ptau 
 snarkjs powersoftau verify pot12_final.ptau
 
-snarkjs plonk setup ${NAME}/${NAME}.r1cs pot12_final.ptau circuit_final.zkey
-snarkjs zkey export verificationkey circuit_final.zkey verification_key.json
+snarkjs plonk setup ${NAME}/${NAME}.r1cs pot12_final.ptau ${NAME}/circuit_final_plonk.zkey
+snarkjs zkey export verificationkey ${NAME}/circuit_final_plonk.zkey verification_key.json
 
 cd ../..

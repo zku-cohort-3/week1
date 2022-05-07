@@ -11,5 +11,8 @@
   },
   "scripts": {
     "test": "node scripts/bump-solidity.js && npx hardhat test"
+  },
+  "dependencies": {
+    "child_process": "^1.0.2"
   }
 }
