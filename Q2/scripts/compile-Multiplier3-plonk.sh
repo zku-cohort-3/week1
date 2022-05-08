@@ -21,5 +21,6 @@ snarkjs powersoftau verify pot12_final.ptau
 
 snarkjs plonk setup ${NAME}/${NAME}.r1cs pot12_final.ptau ${NAME}/circuit_final_plonk.zkey
 snarkjs zkey export verificationkey ${NAME}/circuit_final_plonk.zkey verification_key.json
+snarkjs zkey export solidityverifier ${NAME}/circuit_final_plonk.zkey ../Multiplier3VerifierPLONK.sol
 
 cd ../..

@@ -23,5 +23,7 @@ template RangeProof(n) {
 
     // if either lower or higher, return 0 (false)
     // otherwise return 1 (true)
-    out <== lt * gt;
+    signal notOk <-- lt * gt;
+    signal ok <-- notOk == 1? 0 : 1;
+    out <== ok;
 }
