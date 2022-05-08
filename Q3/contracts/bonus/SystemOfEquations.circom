@@ -3,6 +3,7 @@ pragma circom 2.0.0;
 include "../../node_modules/circomlib/circuits/comparators.circom";
 include "../../node_modules/circomlib-matrix/circuits/matMul.circom"; // hint: you can use more than one templates in circomlib-matrix to help you
 include "../../node_modules/circomlib-matrix/circuits/matSub.circom";
+include "../../node_modules/circomlib-matrix/circuits/matElemPow.circom";
 include "../../node_modules/circomlib-matrix/circuits/matElemSum.circom";
 include "../../node_modules/circomlib-matrix/circuits/transpose.circom";
 
@@ -26,29 +27,42 @@ template SystemOfEquations(n) { // n is the number of variables in the system of
     component comparators[n];
     var results[1][n];
     
-    // Generate array of comparison results b[i] == b'[i]
-    for (var i = 0; i < n; i++) {
-        comparators[i] = IsEqual();
+    // Generate array of subractions results b[i] - b'[i]
+    // and check if sum(b[i] - b'[i]) == 0 and sum((b[i] - b'[i])^2) == 0 for all i
+    component sub = matSub(n, 1);
+    component sum = matElemSum(n, 1);
+    component powSum = matElemSum(n, 1);
+    component elemPow = matElemPow(n, 1, 2);
+    component isZero = IsEqual();
+    component isZeroPow = IsEqual();
 
-        comparators[i].in[0] <== b[i];
-        comparators[i].in[1] <== mul.out[i][0];
-        results[0][i] = comparators[i].out;
+    // Calculate b - b'
+    for (var i = 0; i < n; i++) {
+        sub.a[i][0] <== b[i];
+        sub.b[i][0] <== mul.out[i][0];
     }
 
-    component matSum = matElemSum(1,n);
-
-    // Sum the results of all comparisons
+    // Sum the b[i] - b'[i] and calculate (b - b')^2
     for (var i = 0; i < n; i++) {
-        matSum.a[0][i] <== results[0][i];
+        sum.a[i][0] <== sub.out[i][0];
+        elemPow.a[i][0] <== sub.out[i][0];
     }
 
-    // Expect that all comparisons resulted in value 1
-    // so the sum of the results matrix would be 1 * n = n
-    component isResOk = IsEqual();
-    isResOk.in[0] <== matSum.out;
-    isResOk.in[1] <== n;
+    // Sum the (b[i] - b'[i])^2
+    for (var i = 0; i < n; i++) {
+        powSum.a[i][0] <== elemPow.out[i][0];
+    }
+
+    // Check if sum(b[i] - b'[i]) == 0
+    isZero.in[0] <== sum.out;
+    isZero.in[1] <== 0;
+
+    // Check if sum((b[i] - b'[i])^2) == 0
+    isZeroPow.in[0] <== powSum.out;
+    isZeroPow.in[1] <== 0;
     
-    out <== isResOk.out;
+    // Check if both comparisons returned 1
+    out <== isZero.out * isZeroPow.out;
 }
 
 component main {public [A, b]} = SystemOfEquations(3);

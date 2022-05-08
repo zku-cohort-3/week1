@@ -168,14 +168,10 @@ describe("Multiplier3 with PLONK", function () {
         const calldata = await plonk.exportSolidityCallData(editedProof, editedPublicSignals);
 
         // Exract numeric inputs from the calldata string and convert them into one-dimensional array of BigInts
-        const argv = calldata.replace(/["[\]\s]/g, "").split(',').map(x => BigInt(x));
+        const argv = calldata.replace(/["[\]\s]/g, "").split(',');
 
         // Format proof and signal values as bytes and uint array
-        const proofHex = argv[0].toString(16);
-
-        // Transform proof value to bytes, odd hex values need to be padded with extra 0 from the left
-        const proofBytes = ethers.utils.solidityPack(['bytes'], [`0x${proofHex.length % 2 == 0 ? proofHex : `0${proofHex}`}`]);
-
+        const proofBytes = argv[0];
         const Input = [argv[1].toString()];
 
         expect(await verifier.verifyProof(proofBytes, Input)).to.be.true;
@@ -183,10 +179,9 @@ describe("Multiplier3 with PLONK", function () {
     it("Should return false for invalid proof", async function () {
         //[assignment] insert your script here
         // Prepare value of an invalid proof
-        let falseProofBigInt = 42;
 
         // Transform proof value to bytes
-        let falseProofBytes = ethers.utils.solidityPack(['bytes'], [`0x${falseProofBigInt}`]);
+        let falseProofBytes = "0xa1";
         let publicSignal = [0];
 
         // Expect the verifiers response to be false
