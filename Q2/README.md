@@ -11,3 +11,5 @@ Try running some of the following tasks:
 . scripts/compile-HelloWorld.sh
 node scripts/bump-solidity.js && npx hardhat test
 ```
+
+NOTE: File containing the powers of Tau is added to .gitignore

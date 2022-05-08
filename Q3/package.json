@@ -13,5 +13,8 @@
   },
   "scripts": {
     "test": ". scripts/bonus-compile.sh && node scripts/bonus-bump-solidity.js && npx hardhat test"
+  },
+  "dependencies": {
+    "circom_tester": "^0.0.11"
   }
 }
