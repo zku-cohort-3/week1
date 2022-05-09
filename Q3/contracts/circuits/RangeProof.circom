@@ -12,4 +12,16 @@ template RangeProof(n) {
     component high = GreaterEqThan(n);
 
     // [assignment] insert your code here
+
+    // The lowest element is set.
+    low.in[0] <== in;
+    low.in[1] <== range[1];
+
+    // The highest in the range is set.
+    high.in[0] <== in;
+    high.in[1] <== range[0];
+
+    // This is the constraints
+    out <== low.out * high.out;
 }
+
