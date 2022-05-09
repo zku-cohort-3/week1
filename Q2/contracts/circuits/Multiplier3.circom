@@ -3,16 +3,13 @@ pragma circom 2.0.0;
 // [assignment] Modify the circuit below to perform a multiplication of three signals
 
 template Multiplier3 () {
-
-   // Declaration of signals.
    signal input a;
-   signal input b;
+   signal output b;
    var x = a*a;
-   x += c;
+   x += 3;
    b <== x;
 
-   // Constraints.
-   b === a*a + c;
+   b === a * a + 3;
 }
 
 component main = Multiplier3();

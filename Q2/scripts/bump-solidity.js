@@ -9,3 +9,9 @@ bumped = bumped.replace(verifierRegex, 'contract HelloWorldVerifier');
 
 fs.writeFileSync("./contracts/HelloWorldVerifier.sol", bumped);
 
+let content2 = fs.readFileSync("./contracts/Multiplier3Verifier.sol", { encoding: 'utf-8' });
+let bumped2 = content2.replace(solidityRegex, 'pragma solidity ^0.8.4');
+bumped2 = bumped2.replace(verifierRegex, 'contract Multiplier3Verifier');
+
+fs.writeFileSync("./contracts/Multiplier3Verifier.sol", bumped2);
+
