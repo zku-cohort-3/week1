@@ -38,10 +38,11 @@ describe("SystemOfEquations", function () {
         const { proof, publicSignals } = await groth16.fullProve({
             "x": ["15","17","19"],
             "A": [["1","1","1"],["1","2","3"],["2","-1","1"]],
-            "b": ["51", "106", "32"]
+            "b": ["51", "106", "32"],
         },
             "contracts/bonus/SystemOfEquations/SystemOfEquations_js/SystemOfEquations.wasm","contracts/bonus/SystemOfEquations/circuit_final.zkey");
 
+        console.log(publicSignals[0]);
         const editedPublicSignals = unstringifyBigInts(publicSignals);
         const editedProof = unstringifyBigInts(proof);
         const calldata = await groth16.exportSolidityCallData(editedProof, editedPublicSignals);

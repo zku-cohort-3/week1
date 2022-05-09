@@ -13,3 +13,4 @@ template LessThan10() {
 
     out <== lt.out;
 }
+
