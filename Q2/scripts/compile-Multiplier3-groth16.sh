@@ -8,23 +8,23 @@ echo "Compiling Multipler3.circom..."
 
 # compile circuit
 
-circom Multipler3.circom --r1cs --wasm --sym -o Multipler3
+circom Multipler3.circom --r1cs --wasm --sym --c -o Multipler3
 
 if [[ $* == *--nodejs* ]]
 then
     echo "Generating nodejs version of Multipler3.sol..."
-    cd Multipler3/circuit_js
-    node generate_witness.js multipler3.wasm ../input.json witness.wtns
+    cd Multipler3/multipler3_js
+    node generate_witness.js multipler3.wasm input.json witness.wtns
 
 else
     echo "Using cpp version of Multipler3.sol..."
-    cd Multipler3/circuit_cpp
+    cd Multipler3/multiplier3_cpp
     make
 
-    Multipler3/circuit ../input.json ../witness.wtns
+    Multipler3/multipler3 input.json witness.wtns
 fi
 
-cp ../witness.wtns ../../../witness.wtns
+cp Multipler3/witness.wtns ../../../witness.wtns
 cd ../..
 
 # create new powersoftau ceremony
