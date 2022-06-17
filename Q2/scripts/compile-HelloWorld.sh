@@ -10,8 +10,9 @@ else
     echo 'Downloading powersOfTau28_hez_final_10.ptau'
     wget https://hermez.s3-eu-west-1.amazonaws.com/powersOfTau28_hez_final_10.ptau
 fi
-
+echo "-------------------------------"
 echo "Compiling HelloWorld.circom..."
+echo "-------------------------------"
 
 # compile circuit
 
