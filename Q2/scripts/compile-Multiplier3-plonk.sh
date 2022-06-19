@@ -17,21 +17,17 @@ echo "-------------------------------"
 # compile circuit
 
 circom Multiplier3.circom --r1cs --wasm --sym -o Multiplier3
-## Error Done!!!
-# snarkjs r1cs info Multiplier3/Multiplier3.r1cs
 snarkjs r1cs info Multiplier3_plonk/Multiplier3.r1cs
 
+
 # Start a new zkey and make a contribution
-# snarkjs plonk setup circuit.r1cs pot12_final.ptau circuit_final.zkey
+
 snarkjs plonk setup Multiplier3_plonk/Multiplier3.r1cs powersOfTau28_hez_final_10.ptau Multiplier3_plonk/circuit_final.zkey
-
-
-## Error
-## snarkjs zkey verify circuit.r1cs pot12_final.ptau circuit_final.zkey
+###---  Error -------
 snarkjs zkey verify Multiplier3_plonk/Multiplier3.r1cs powersOfTau28_hez_final_10.ptau Multiplier3_plonk/circuit_final.zkey
-
-
+###-------------------
 snarkjs zkey export verificationkey Multiplier3/circuit_final.zkey Multiplier3/verification_key.json
+
 
 # generate solidity contract
 snarkjs zkey export solidityverifier Multiplier3/circuit_final.zkey ../Multiplier3Verifier_plonk.sol
